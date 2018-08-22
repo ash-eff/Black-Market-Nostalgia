@@ -25,7 +25,7 @@ public class Neighborhood : MonoBehaviour
 
     // TODO privatize variables after testing
     public int population;
-    public int numberOfPossibleAllies;
+    //public int numberOfPossibleAllies;
     private int minBasePop = 5000;
     private int maxBasePop = 6000;  
     

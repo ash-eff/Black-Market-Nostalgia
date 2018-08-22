@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class NeighborhoodBuilder : MonoBehaviour {
 
     public Neighborhood[] neighborhoods;
@@ -12,6 +13,13 @@ public class NeighborhoodBuilder : MonoBehaviour {
     public float zoneOne;
     private float distanceFromCorp;
     private Corporation corporation;
+
+    private void Start()
+    {
+        corporation = FindObjectOfType<Corporation>();
+        neighborhoods = FindObjectsOfType<Neighborhood>();
+        AssignZone();
+    }
 
     public void Build()
     {
@@ -84,11 +92,11 @@ public class NeighborhoodBuilder : MonoBehaviour {
                 {
                     neighborhood.IncomeClass = IncomeClass.Upper;
                 }
-                else if (zoneChance > 40 && zoneChance < 81)
+                else if (zoneChance > 40 && zoneChance < 76)
                 {
                     neighborhood.IncomeClass = IncomeClass.Middle;
                 }
-                else if (zoneChance > 80 && zoneChance < 91)
+                else if (zoneChance > 75 && zoneChance < 91)
                 {
                     neighborhood.IncomeClass = IncomeClass.Lower;
                 }
@@ -99,11 +107,11 @@ public class NeighborhoodBuilder : MonoBehaviour {
             }
             else if (neighborhood.zone == 2)
             {
-                if (zoneChance < 51)
+                if (zoneChance < 34)
                 {
                     neighborhood.IncomeClass = IncomeClass.Middle;
                 }
-                else if (zoneChance > 50 && zoneChance < 76)
+                else if (zoneChance > 33 && zoneChance < 66)
                 {
                     neighborhood.IncomeClass = IncomeClass.Lower;
                 }
@@ -114,7 +122,7 @@ public class NeighborhoodBuilder : MonoBehaviour {
             }
             else if (neighborhood.zone == 1)
             {
-                if (zoneChance < 51)
+                if (zoneChance < 41)
                 {
                     neighborhood.IncomeClass = IncomeClass.Lower;
                 }
