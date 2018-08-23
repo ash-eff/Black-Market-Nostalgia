@@ -36,23 +36,23 @@ public class NeighborhoodBuilder : MonoBehaviour {
 
             if(distanceFromCorp < zoneFour)
             {
-                neighborhood.zone = 4;
+                neighborhood.Zone = 4;
             }
             else if (distanceFromCorp < zoneThree && distanceFromCorp > zoneFour)
             {
-                neighborhood.zone = 3;
+                neighborhood.Zone = 3;
             }
             else if (distanceFromCorp < zoneTwo && distanceFromCorp > zoneThree)
             {
-                neighborhood.zone = 2;
+                neighborhood.Zone = 2;
             }
             else if (distanceFromCorp < zoneOne && distanceFromCorp > zoneTwo)
             {
-                neighborhood.zone = 1;
+                neighborhood.Zone = 1;
             }
             else
             {
-                neighborhood.zone = 0;
+                neighborhood.Zone = 0;
             }
         }
     }
@@ -63,7 +63,7 @@ public class NeighborhoodBuilder : MonoBehaviour {
         {
             int zoneChance = Random.Range(1, 100);
 
-            if(neighborhood.zone == 4)
+            if(neighborhood.Zone == 4)
             {
                 if(zoneChance < 41)
                 {
@@ -86,7 +86,7 @@ public class NeighborhoodBuilder : MonoBehaviour {
                     neighborhood.IncomeClass = IncomeClass.Poverty;
                 }
             }
-            else if (neighborhood.zone == 3)
+            else if (neighborhood.Zone == 3)
             {
                 if (zoneChance < 41)
                 {
@@ -105,7 +105,7 @@ public class NeighborhoodBuilder : MonoBehaviour {
                     neighborhood.IncomeClass = IncomeClass.Poverty;
                 }
             }
-            else if (neighborhood.zone == 2)
+            else if (neighborhood.Zone == 2)
             {
                 if (zoneChance < 34)
                 {
@@ -120,7 +120,7 @@ public class NeighborhoodBuilder : MonoBehaviour {
                     neighborhood.IncomeClass = IncomeClass.Poverty;
                 }
             }
-            else if (neighborhood.zone == 1)
+            else if (neighborhood.Zone == 1)
             {
                 if (zoneChance < 41)
                 {
@@ -136,7 +136,166 @@ public class NeighborhoodBuilder : MonoBehaviour {
                 neighborhood.IncomeClass = IncomeClass.Poverty;
             }
             neighborhood.SetColorByIncome();
-        }     
+        }
+
+        AssignTemperament();
+    }
+
+    private void AssignTemperament()
+    {
+        foreach (Neighborhood neighborhood in neighborhoods)
+        {
+            int incomeChance = Random.Range(1, 100);
+
+            if (neighborhood.incomeClass == IncomeClass.Ruling)
+            {
+                if (incomeChance < 71)
+                {
+                    neighborhood.temperament = Temperament.Loyal;
+                }
+                else if (incomeChance > 70)
+                {
+                    neighborhood.temperament = Temperament.Sypathetic;
+                }
+            }
+            else if (neighborhood.incomeClass == IncomeClass.Upper)
+            {
+                if (incomeChance < 51)
+                {
+                    neighborhood.temperament = Temperament.Sypathetic;
+                }
+                else if (incomeChance > 50 && incomeChance < 76)
+                {
+                    neighborhood.temperament = Temperament.Loyal;
+                }
+                else
+                {
+                    neighborhood.temperament = Temperament.Contented;
+                }
+            }
+            else if (neighborhood.incomeClass == IncomeClass.Middle)
+            {
+                if (incomeChance < 36)
+                {
+                    neighborhood.temperament = Temperament.Contented;
+                }
+                else if (incomeChance > 35 && incomeChance < 61)
+                {
+                    neighborhood.temperament = Temperament.Neutral;
+                }
+                else if (incomeChance > 60 && incomeChance < 86)
+                {
+                    neighborhood.temperament = Temperament.Apathetic;
+                }
+                else if (incomeChance > 85 && incomeChance < 96)
+                {
+                    neighborhood.temperament = Temperament.Sypathetic;
+                }
+                else
+                {
+                    neighborhood.temperament = Temperament.Loyal;
+                }
+            }
+            else if (neighborhood.incomeClass == IncomeClass.Lower)
+            {
+                if (incomeChance < 36)
+                {
+                    neighborhood.temperament = Temperament.Bitter;
+                }
+                else if (incomeChance > 35 && incomeChance < 61)
+                {
+                    neighborhood.temperament = Temperament.Neutral;
+                }
+                else if (incomeChance > 60 && incomeChance < 81)
+                {
+                    neighborhood.temperament = Temperament.Outraged;
+                }
+                else if (incomeChance > 80 && incomeChance < 91)
+                {
+                    neighborhood.temperament = Temperament.Apathetic;
+                }
+                else if (incomeChance > 90 && incomeChance < 96)
+                {
+                    neighborhood.temperament = Temperament.Contented;
+                }
+                else if (incomeChance > 95 && incomeChance < 99)
+                {
+                    neighborhood.temperament = Temperament.Apathetic;
+                }
+                else
+                {
+                    neighborhood.temperament = Temperament.Loyal;
+                }
+            }
+            else
+            {
+                if (incomeChance < 51)
+                {
+                    neighborhood.temperament = Temperament.Outraged;
+                }
+                else if (incomeChance > 50 && incomeChance < 81)
+                {
+                    neighborhood.temperament = Temperament.Bitter;
+                }
+                else if (incomeChance > 80 && incomeChance < 91)
+                {
+                    neighborhood.temperament = Temperament.Apathetic;
+                }
+                else if (incomeChance > 90 && incomeChance < 96)
+                {
+                    neighborhood.temperament = Temperament.Neutral;
+                }
+                else if (incomeChance > 95 && incomeChance < 98)
+                {
+                    neighborhood.temperament = Temperament.Contented;
+                }
+                else if (incomeChance > 97 && incomeChance < 100)
+                {
+                    neighborhood.temperament = Temperament.Sypathetic;
+                }
+                else
+                {
+                    neighborhood.temperament = Temperament.Loyal;
+                }
+            }
+        }
+
+        AssignCorporateInfluence();
+    }
+
+    private void AssignCorporateInfluence()
+    {
+        foreach (Neighborhood neighborhood in neighborhoods)
+        {
+            if (neighborhood.temperament == Temperament.Loyal)
+            {
+                neighborhood.CorporateInfluence = Mathf.Round(Random.Range(95, 100) * 100f) / 100f;
+            }
+            else if (neighborhood.temperament == Temperament.Sypathetic)
+            {
+                neighborhood.CorporateInfluence = Mathf.Round(Random.Range(90, 95) * 100f) / 100f;
+            }
+            else if (neighborhood.temperament == Temperament.Contented)
+            {
+                neighborhood.CorporateInfluence = Mathf.Round(Random.Range(80, 90) * 100f) / 100f;
+            }
+            else if (neighborhood.temperament == Temperament.Neutral)
+            {
+                neighborhood.CorporateInfluence = Mathf.Round(Random.Range(50, 80) * 100f) / 100f;
+            }
+            else if (neighborhood.temperament == Temperament.Apathetic)
+            {
+                neighborhood.CorporateInfluence = Mathf.Round(Random.Range(30, 50) * 100f) / 100f;
+            }
+            else if (neighborhood.temperament == Temperament.Bitter)
+            {
+                neighborhood.CorporateInfluence = Mathf.Round(Random.Range(15, 30) * 100f) / 100f;
+            }
+            else
+            {
+                neighborhood.CorporateInfluence = Mathf.Round(Random.Range(5, 15) * 100f) / 100f;
+            }
+        }
     }
 
     private void OnDrawGizmos()
@@ -153,7 +312,8 @@ public class NeighborhoodBuilder : MonoBehaviour {
     {
         foreach(Neighborhood neighborhood in neighborhoods)
         {
-            neighborhood.incomeClass = IncomeClass.Lower;
+            neighborhood.incomeClass = IncomeClass.Middle;
+            neighborhood.temperament = Temperament.Neutral;
             neighborhood.SetColorByIncome();
             neighborhoods = null;
         }

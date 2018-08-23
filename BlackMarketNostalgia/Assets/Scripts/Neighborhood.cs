@@ -18,10 +18,11 @@ public class Neighborhood : MonoBehaviour
 {
     new Collider2D collider;
     public Transform corporation;
-
+    public TextMesh temperamentText;
+    public TextMesh influenceText;
     public string nieghborhoodName;
     // TODO hide in inspector
-    public int zone;
+    private int zone;
 
     // TODO privatize variables after testing
     public int population;
@@ -30,8 +31,8 @@ public class Neighborhood : MonoBehaviour
     private int maxBasePop = 6000;  
     
     public float corporateInfluence;
-    public float happiness;
-    public float neighborhoodSize;
+    //public float happiness;
+    private float neighborhoodSize;
     
     public Temperament temperament;
     public IncomeClass incomeClass;
@@ -48,6 +49,12 @@ public class Neighborhood : MonoBehaviour
         Setup();
     }
 
+    private void Update()
+    {
+        temperamentText.text = temperament.ToString();
+        influenceText.text = "Inf: " + corporateInfluence + "%";
+    }
+
     private void Setup()
     {
         neighborhoodSize = collider.bounds.size.magnitude;
@@ -60,9 +67,22 @@ public class Neighborhood : MonoBehaviour
         set { incomeClass = value; }
     }
 
-    public int Population
+    public Temperament Temperament
     {
-        get { return population; }
+        get { return Temperament; }
+        set { temperament = value; }
+    }
+
+    public int Zone
+    {
+        get { return zone; }
+        set { zone = value; }
+    }
+
+    public float CorporateInfluence
+    {
+        get { return corporateInfluence; }
+        set { corporateInfluence = value; }
     }
 
 
