@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 212593827736686170}
   - component: {fileID: 61612444811414030}
   - component: {fileID: 114079002058822502}
+  - component: {fileID: 114098691039639734}
   m_Layer: 8
   m_Name: Neighborhood
   m_TagString: Neighborhood
@@ -257,6 +258,17 @@ MonoBehaviour:
   influenceText: {fileID: 102320087960983730}
   temperament: 4
   incomeClass: 2
+--- !u!114 &114098691039639734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1777919203312638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 062e28053e451764d85520959310ec8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212593827736686170
 SpriteRenderer:
   m_ObjectHideFlags: 1
