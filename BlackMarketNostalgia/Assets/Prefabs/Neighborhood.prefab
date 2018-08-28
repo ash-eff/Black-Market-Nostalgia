@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4420808863899872}
   - component: {fileID: 23652828033630274}
   - component: {fileID: 102320087960983730}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Influence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,9 +39,9 @@ GameObject:
   - component: {fileID: 212593827736686170}
   - component: {fileID: 61612444811414030}
   - component: {fileID: 114079002058822502}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Neighborhood
-  m_TagString: Untagged
+  m_TagString: Neighborhood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 4427026963557850}
   - component: {fileID: 23950648851509320}
   - component: {fileID: 102043532933082296}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Temperament
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,12 +255,8 @@ MonoBehaviour:
   corporation: {fileID: 0}
   temperamentText: {fileID: 102043532933082296}
   influenceText: {fileID: 102320087960983730}
-  nieghborhoodName: 
-  population: 10258
-  corporateInfluence: 85
   temperament: 4
   incomeClass: 2
-  isUnlocked: 0
 --- !u!212 &212593827736686170
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -305,5 +301,5 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class NeighborhoodBuilder : MonoBehaviour {
 
     public Neighborhood[] neighborhoods;
@@ -15,13 +14,6 @@ public class NeighborhoodBuilder : MonoBehaviour {
     private Corporation corporation;
 
     private void Start()
-    {
-        corporation = FindObjectOfType<Corporation>();
-        neighborhoods = FindObjectsOfType<Neighborhood>();
-        AssignZone();
-    }
-
-    public void Build()
     {
         corporation = FindObjectOfType<Corporation>();
         neighborhoods = FindObjectsOfType<Neighborhood>();
@@ -55,9 +47,11 @@ public class NeighborhoodBuilder : MonoBehaviour {
                 neighborhood.Zone = 0;
             }
         }
+
+        AssignIncomeClass();
     }
 
-    public void AssignIncomeClass()
+    private void AssignIncomeClass()
     {
         foreach (Neighborhood neighborhood in neighborhoods)
         {
@@ -295,27 +289,6 @@ public class NeighborhoodBuilder : MonoBehaviour {
             {
                 neighborhood.CorporateInfluence = Mathf.Round(Random.Range(5, 15) * 100f) / 100f;
             }
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(corporation.transform.position, zoneFour);
-        Gizmos.DrawWireSphere(corporation.transform.position, zoneThree);
-        Gizmos.DrawWireSphere(corporation.transform.position, zoneTwo);
-        Gizmos.DrawWireSphere(corporation.transform.position, zoneOne);
-    }
-
-    // TODO for testing only, remove
-    public void ResetIncomeClass()
-    {
-        foreach(Neighborhood neighborhood in neighborhoods)
-        {
-            neighborhood.incomeClass = IncomeClass.Middle;
-            neighborhood.temperament = Temperament.Neutral;
-            neighborhood.SetColorByIncome();
-            neighborhoods = null;
         }
     }
 }

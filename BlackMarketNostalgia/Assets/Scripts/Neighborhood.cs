@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum Temperament
 {
@@ -13,40 +12,41 @@ public enum IncomeClass
     Poverty, Lower, Middle, Upper, Ruling,
 }
 
-[ExecuteInEditMode]
 public class Neighborhood : MonoBehaviour
 {
     new Collider2D collider;
     public Transform corporation;
     public TextMesh temperamentText;
     public TextMesh influenceText;
-    public string nieghborhoodName;
-    // TODO hide in inspector
-    private int zone;
 
-    // TODO privatize variables after testing
-    public int population;
-    //public int numberOfPossibleAllies;
-    private int minBasePop = 5000;
-    private int maxBasePop = 6000;  
-    
-    public float corporateInfluence;
-    //public float happiness;
-    private float neighborhoodSize;
-    
     public Temperament temperament;
     public IncomeClass incomeClass;
 
-    private SpriteRenderer sr;
-    //private List<Items> desiredList = new List<Items>();
+    private string nieghborhoodName;
     
-    public bool isUnlocked;
+    private int zone;
+    private int population;
+    private int numberOfPossibleAllies;
+    private int minBasePop = 5000;
+    private int maxBasePop = 6000;  
+    
+    private float corporateInfluence;
+    private float playerInfluence;
+    private float otherInfluence;
+    private float crimeRate;
+    private float policePresence;
+    private float neighborhoodSize;
+
+    private SpriteRenderer sr;
+    
+    private bool isUnlocked;
 
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         collider = GetComponent<Collider2D>();
-        Setup();
+        neighborhoodSize = collider.bounds.size.magnitude;
+        population = Mathf.RoundToInt(Random.Range(minBasePop, maxBasePop) * neighborhoodSize / ((int)incomeClass + 1));
     }
 
     private void Update()
@@ -55,10 +55,13 @@ public class Neighborhood : MonoBehaviour
         influenceText.text = "Inf: " + corporateInfluence + "%";
     }
 
-    private void Setup()
+    public string NeighborhoodInfo()
     {
-        neighborhoodSize = collider.bounds.size.magnitude;
-        population = Mathf.RoundToInt(Random.Range(minBasePop, maxBasePop) * neighborhoodSize / ((int)incomeClass + 1));      
+        string Information = "Name: " + this.name + "\nPopulation: " +
+            population + "\nCorporate Inf: " + corporateInfluence +
+            "\nTemperament: " + temperament.ToString() + "\nIncome Class: " +
+            incomeClass.ToString();
+        return Information;
     }
 
     public IncomeClass IncomeClass
