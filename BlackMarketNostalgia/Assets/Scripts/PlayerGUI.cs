@@ -7,9 +7,8 @@ public class PlayerGUI : MonoBehaviour {
 
     public Text neighborhoodInfoText;
 
-    public void NeighborhoodInformation(GameObject neighborhood)
+    public void NeighborhoodInformation(Neighborhood neighborhood)
     {
-        neighborhoodInfoText.text = neighborhood.GetComponent<Neighborhood>().NeighborhoodInfo();
+        neighborhoodInfoText.text = neighborhood.NeighborhoodInfo();
     }
-
 }

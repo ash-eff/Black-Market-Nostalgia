@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum Temperament
 {
@@ -12,68 +13,57 @@ public enum IncomeClass
     Poverty, Lower, Middle, Upper, Ruling,
 }
 
+public enum State
+{
+    Inactive, Influenced, Event, 
+}
+
 public class Neighborhood : MonoBehaviour
 {
-    new Collider2D collider;
     public Transform corporation;
-    public TextMesh temperamentText;
-    public TextMesh influenceText;
+    public SpriteRenderer lockSprite;
+    public TextMesh indicatorText;
 
     public Temperament temperament;
     public IncomeClass incomeClass;
 
+    public State state = State.Inactive;
+
     private string nieghborhoodName;
-    
+
     private int zone;
     private int population;
     private int numberOfPossibleAllies;
-    private int minBasePop = 5000;
-    private int maxBasePop = 6000;  
-    
-    private float corporateInfluence;
-    private float playerInfluence;
-    private float otherInfluence;
-    private float crimeRate;
-    private float policePresence;
+    private int corporateInfluence;
+    private int playerInfluence;
+    private int playerInfluenceGained;
+    private int otherInfluence;
+    private int crimeRate;
+    private int policePresence;
+
     private float neighborhoodSize;
 
-    private SpriteRenderer sr;
-    
-    private bool isUnlocked;
+    private bool isLocked;
+    private bool isUnlockable;
 
-    private void Start()
-    {
-        sr = GetComponent<SpriteRenderer>();
-        collider = GetComponent<Collider2D>();
-        neighborhoodSize = collider.bounds.size.magnitude;
-        population = Mathf.RoundToInt(Random.Range(minBasePop, maxBasePop) * neighborhoodSize / ((int)incomeClass + 1));
-    }
-
-    private void Update()
-    {
-        temperamentText.text = temperament.ToString();
-        influenceText.text = "Inf: " + corporateInfluence + "%";
-    }
-
-    public string NeighborhoodInfo()
-    {
-        string Information = "Name: " + this.name + "\nPopulation: " +
-            population + "\nCorporate Inf: " + corporateInfluence +
-            "\nTemperament: " + temperament.ToString() + "\nIncome Class: " +
-            incomeClass.ToString();
-        return Information;
-    }
+    private GameControl gc;
 
     public IncomeClass IncomeClass
     {
-        get { return IncomeClass; }
+        get { return incomeClass; }
         set { incomeClass = value; }
     }
 
     public Temperament Temperament
     {
-        get { return Temperament; }
+        get { return temperament; }
         set { temperament = value; }
+    }
+
+    public State State
+    {
+        get { return state; }
+        set { state = value; }
     }
 
     public int Zone
@@ -82,38 +72,115 @@ public class Neighborhood : MonoBehaviour
         set { zone = value; }
     }
 
-    public float CorporateInfluence
+    public float NeighborhoodSize
+    {
+        get { return neighborhoodSize; }
+        set { neighborhoodSize = value; }
+    }
+
+    public int Population
+    {
+        get { return population; }
+        set { population = value; }
+    }
+
+    public int CorporateInfluence
     {
         get { return corporateInfluence; }
         set { corporateInfluence = value; }
     }
 
-
-
-
-
-    // TODO for testing only. Remove
-    public void SetColorByIncome()
+    public int PlayerInfluenceGained
     {
-        if (incomeClass == IncomeClass.Ruling)
+        get { return playerInfluenceGained; }
+    }
+
+    public int CrimeRate
+    {
+        get { return crimeRate; }
+        set { crimeRate = value; }
+    }
+
+    public int PolicePresence
+    {
+        get { return policePresence; }
+        set { policePresence = value; }
+    }
+
+    public bool IsLocked
+    {
+        get { return isLocked; }
+        set { isLocked = value; }
+    }
+
+    public bool IsUnlockable
+    {
+        get { return isUnlockable; }
+        set { isUnlockable = value; }
+    }
+
+    private void Start()
+    {
+        gc = FindObjectOfType<GameControl>();
+    }
+
+    private void Update()
+    {
+        LockStatus();
+    }
+
+    public string NeighborhoodInfo()
+    {
+        string Information =
+            "Name: " + this.name +
+            "\nPopulation: " + population +
+            "\nCorporate Inf: " + corporateInfluence + "%" +
+            "\nTemperament: " + temperament.ToString() +
+            "\nIncome Class: " + incomeClass.ToString() +
+            "\nCrime Rate: " + crimeRate + "%" +
+            "\nPolice Presence: " + policePresence + "%" +
+            "\nPlayer Inf: " + playerInfluence + "%" +
+            "\nLocked: " + isLocked +
+            "\nUnlockable: " + isUnlockable;
+
+        return Information;
+    }
+
+    private void LockStatus()
+    {
+        if (IsLocked && gc.PlayerInfluence >= gc.InfluenceToUnlock)
         {
-            sr.color = Color.yellow;
+            IsUnlockable = true;
+            lockSprite.color = Color.green;
         }
-        else if (incomeClass == IncomeClass.Upper)
+        
+        if (IsLocked && gc.PlayerInfluence < gc.InfluenceToUnlock)
         {
-            sr.color = Color.blue;
+            IsUnlockable = false;
+            lockSprite.color = Color.red;
         }
-        else if (incomeClass == IncomeClass.Middle)
+        
+        if (!isLocked && state == State.Inactive)
         {
-            sr.color = Color.green;
+            IsUnlockable = false;
+            lockSprite.enabled = false;
+            state = State.Influenced;
+            StartCoroutine("BeingInfluenced");
         }
-        else if (incomeClass == IncomeClass.Lower)
+    }
+
+    public IEnumerator BeingInfluenced()
+    {
+        while (state == State.Influenced)
         {
-            sr.color = Color.white;
-        }
-        else
-        {
-            sr.color = Color.grey;
+            indicatorText.text = "INF!";
+            gc.PlayerInfluence += 50;
+
+            yield return new WaitForSeconds(1);
+
+            indicatorText.text = "";
+
+            yield return new WaitForSeconds(1);
         }
     }
 }

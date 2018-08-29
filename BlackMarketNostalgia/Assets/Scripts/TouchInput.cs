@@ -5,17 +5,15 @@ using UnityEngine;
 public class TouchInput : MonoBehaviour {
 
     public LayerMask neighborhoodMask;
-
     RaycastHit2D hit;
+    GameControl gameControl;
 
-    PlayerGUI playerGUI;
     Touch touch;
     Vector2 touchPos;
 
     private void Start()
     {
-        playerGUI = FindObjectOfType<PlayerGUI>();
-        
+        gameControl = FindObjectOfType<GameControl>();
     }
 
     // Update is called once per frame
@@ -31,15 +29,13 @@ public class TouchInput : MonoBehaviour {
 
             if (hit && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                playerGUI.NeighborhoodInformation(hit.transform.gameObject);
+                gameControl.CurrentNeighborhood = hit.transform.GetComponent<Neighborhood>();
             }
 
             if(Input.GetTouch(0).phase == TouchPhase.Moved)
             {
-
-                // TODO figure out why the z axis on the camera changes when moving with finger
                 Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-                transform.Translate(new Vector3(-touchDeltaPosition.x * .10f, -touchDeltaPosition.y * .10f, 0));
+                transform.Translate(new Vector3(-touchDeltaPosition.x * .05f, -touchDeltaPosition.y * .05f, 0));
             }
         }
     }

@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    private string title;
     private string playerName;
-
-    private float influence = 0f;
-    private float chits = 0f;
+    public int val;
+    
+    public static int influence = 0;
+    private float chits;
     private float voice = 10f;
     private float persistence = 2f;
+
+    private void Update()
+    {
+        val = influence;
+    }
 
     public string PlayerName
     {
@@ -18,7 +23,7 @@ public class Player : MonoBehaviour {
         set { playerName = value; }
     }
 
-    public float Influence
+    public int Influence
     {
         get { return influence; }
         set { influence = value; }
