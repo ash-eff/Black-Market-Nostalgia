@@ -362,6 +362,9 @@ public class NeighborhoodBuilder : MonoBehaviour {
         foreach(Neighborhood neighborhood in neighborhoods)
         {
             neighborhood.Population = Mathf.RoundToInt(Random.Range(minBasePop, maxBasePop) * neighborhood.NeighborhoodSize / (int)neighborhood.IncomeClass + 1 );
+            neighborhood.PopulationInfluencedByCorp = Mathf.RoundToInt(neighborhood.Population * (neighborhood.CorporateInfluence * .01f));
+            neighborhood.PopulationInfluencedByNone = neighborhood.Population - neighborhood.PopulationInfluencedByCorp;
+            neighborhood.PopulationInfluencedByPlayer = 0;
         }     
     }
 }

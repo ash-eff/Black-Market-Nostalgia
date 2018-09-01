@@ -35,13 +35,16 @@ public class Neighborhood : MonoBehaviour
     private int population;
     private int numberOfPossibleAllies;
     private int corporateInfluence;
-    private int playerInfluence;
     private int playerInfluenceGained;
-    private int otherInfluence;
+    public int populationInfluencedByCorp;
+    public int populationInfluencedByPlayer;
+    public int populationInfluencedByNone;
     private int crimeRate;
     private int policePresence;
 
     private float neighborhoodSize;
+    private float baseTickTime;
+    public float tickTimer;
 
     private bool isLocked;
     private bool isUnlockable;
@@ -95,6 +98,22 @@ public class Neighborhood : MonoBehaviour
         get { return playerInfluenceGained; }
     }
 
+    public int PopulationInfluencedByCorp
+    {
+        get { return populationInfluencedByCorp; }
+        set { populationInfluencedByCorp = value; }
+    }
+
+    public int PopulationInfluencedByNone
+    {
+        set { populationInfluencedByNone = value; }
+    }
+
+    public int PopulationInfluencedByPlayer
+    {
+        set { populationInfluencedByPlayer = value; }
+    }
+
     public int CrimeRate
     {
         get { return crimeRate; }
@@ -126,6 +145,8 @@ public class Neighborhood : MonoBehaviour
 
     private void Update()
     {
+        baseTickTime = gc.TickTimer;
+        tickTimer = baseTickTime + (baseTickTime * (policePresence * .01f));
         LockStatus();
     }
 
@@ -139,7 +160,9 @@ public class Neighborhood : MonoBehaviour
             "\nIncome Class: " + incomeClass.ToString() +
             "\nCrime Rate: " + crimeRate + "%" +
             "\nPolice Presence: " + policePresence + "%" +
-            "\nPlayer Inf: " + playerInfluence + "%" +
+            "\nPop. to Corporation: " + populationInfluencedByCorp +
+            "\nPop. to None: " + populationInfluencedByNone +
+            "\nPop. to Player: " + populationInfluencedByPlayer +
             "\nLocked: " + isLocked +
             "\nUnlockable: " + isUnlockable;
 
@@ -176,11 +199,11 @@ public class Neighborhood : MonoBehaviour
             indicatorText.text = "INF!";
             gc.PlayerInfluence += 50;
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(tickTimer / 2);
 
             indicatorText.text = "";
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(tickTimer / 2);
         }
     }
 }
